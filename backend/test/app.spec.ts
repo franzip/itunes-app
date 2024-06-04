@@ -13,7 +13,7 @@ describe('App', () => {
     jest
       .spyOn(ITunesClientAPI, 'fetchAlbumsByArtist')
       .mockResolvedValueOnce(jsonMock as ITunesClientAPI.ITunesAPIResponse)
-    const result = await request(app).get('/search?artist=led+zeppelin')
+    const result = await request(app).get('/api/search?artist=led+zeppelin')
     expect(result.statusCode).toBe(200)
     expect(result.body.length).toBeGreaterThan(0)
   })

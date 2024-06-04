@@ -16,7 +16,7 @@ app.get('/health', (req: Request, res: Response) => {
 })
 
 app.get(
-  '/search',
+  '/api/search',
   query('artist').notEmpty().escape(),
   async (req: Request, res: Response) => {
     const result = validationResult(req)
