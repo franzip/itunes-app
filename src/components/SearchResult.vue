@@ -5,8 +5,9 @@
       <img :src="item.artworkUrl100" :alt="item.collectionName" />
     </div>
   </div>
-  <div v-else>Type artist name in "Search by artist"</div>
-  <div class="error" v-if="error">An error occurred: {{ error }}</div>
+  <div v-else>
+    <div>{{ emptyStateMessage }}</div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -15,14 +16,34 @@ import { ResultItem } from '../types'
 
 const props = defineProps<{
   results: ResultItem[]
-  filter: string
+  albumFilter: string
+  artistFilter: string
   error: string | null
 }>()
 
+const emptyStateMessage = computed(() => {
+  const { results, artistFilter, albumFilter, error } = props
+  if (error) {
+    return `An error occurred while fetching data: ${error}`
+  }
+
+  if (!results.length && artistFilter.length) {
+    return `No result found for artist "${artistFilter}"`
+  }
+
+  if (results.length && albumFilter.length) {
+    return `No result found for album "${albumFilter}"`
+  }
+
+  return 'Type artist name in "Search by artist"'
+})
+
 const filteredResults = computed(() => {
-  if (props.filter) {
+  if (props.albumFilter) {
     return props.results.filter((item) =>
-      item.collectionName.toLowerCase().includes(props.filter.toLowerCase())
+      item.collectionName
+        .toLowerCase()
+        .includes(props.albumFilter.toLowerCase())
     )
   }
   return props.results
