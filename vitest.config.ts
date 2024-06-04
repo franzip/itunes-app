@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     environment: 'jsdom',
-    exclude: ['backend'],
+    exclude: ['backend', 'task2'],
     globals: true
   }
 })

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\" vite",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:backend": "npm run test --prefix backend",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
