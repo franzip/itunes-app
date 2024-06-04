@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, vi, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import SearchResult from '../SearchResult.vue'
 
 describe('SearchResult', () => {
