@@ -8,6 +8,7 @@ describe('SearchResult', () => {
       const wrapper = mount(SearchResult, {
         props: {
           results: [],
+          loading: false,
           albumFilter: '',
           artistFilter: '',
           error: 'An error occurred'
@@ -20,6 +21,7 @@ describe('SearchResult', () => {
       const wrapper = mount(SearchResult, {
         props: {
           results: [],
+          loading: false,
           albumFilter: '',
           artistFilter: '',
           error: null
@@ -33,6 +35,7 @@ describe('SearchResult', () => {
       const wrapper = mount(SearchResult, {
         props: {
           results: [],
+          loading: false,
           albumFilter: '',
           artistFilter,
           error: null
@@ -49,6 +52,7 @@ describe('SearchResult', () => {
       const albumFilter = 'Foobar'
       const wrapper = mount(SearchResult, {
         props: {
+          loading: false,
           results: [
             {
               collectionId: '123',

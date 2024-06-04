@@ -3,6 +3,7 @@
     <SearchBar @artist-search="fetchResults" @album-search="filterResults" />
     <SearchResult
       :results="results"
+      :loading="loading"
       :albumFilter="albumFilter"
       :artistFilter="artistFilter"
       :error="error"
@@ -19,6 +20,7 @@ import type { ResultItem } from './types'
 
 const results = ref<ResultItem[]>([])
 const error = ref<string | null>(null)
+const loading = ref<boolean>(false)
 const albumFilter = ref<string>('')
 const artistFilter = ref<string>('')
 
@@ -29,6 +31,8 @@ const fetchResults = async (artist: string) => {
     return
   }
 
+  loading.value = true
+
   try {
     const response = await axios.get(`/api/search?artist=${artist}`)
     results.value = response.data
@@ -38,6 +42,8 @@ const fetchResults = async (artist: string) => {
       console.error('Error fetching results', err)
       error.value = err.message
     }
+  } finally {
+    loading.value = false
   }
 }
 

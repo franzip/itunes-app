@@ -1,5 +1,6 @@
 <template>
-  <div class="grid" v-if="filteredResults.length">
+  <ClipLoader v-if="loading" />
+  <div class="grid" v-if="!loading && filteredResults.length">
     <div class="card" v-for="item in filteredResults" :key="item.collectionId">
       <p>{{ item.collectionName }}</p>
       <img :src="item.artworkUrl100" :alt="item.collectionName" />
@@ -12,17 +13,24 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import ClipLoader from './ClipLoader.vue'
+
 import { ResultItem } from '../types'
 
 const props = defineProps<{
   results: ResultItem[]
   albumFilter: string
   artistFilter: string
+  loading: boolean
   error: string | null
 }>()
 
 const emptyStateMessage = computed(() => {
-  const { results, artistFilter, albumFilter, error } = props
+  const { loading, results, artistFilter, albumFilter, error } = props
+  if (loading) {
+    return ''
+  }
+
   if (error) {
     return `An error occurred while fetching data: ${error}`
   }
