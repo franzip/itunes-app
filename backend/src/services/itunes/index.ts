@@ -3,7 +3,7 @@ import NodeCache from 'node-cache'
 import type { ITunesAPIResult } from './client'
 import { fetchAlbumsByArtist } from './client'
 
-const cache = new NodeCache({stdTTL: 600})
+const cache = new NodeCache({ stdTTL: 600 })
 
 // use album name ("collectionName") as ID to avoid duplicated albums
 type AlbumNameToResult = Record<string, ITunesAPIResult>
@@ -21,7 +21,9 @@ type GroupedResults = {
 // 2 - Removes duplicate albums
 // 3 - Get result count per artist
 // Runs in O(N)
-export function groupResultsByArtist(results: ITunesAPIResult[]): GroupedResults {
+export function groupResultsByArtist(
+  results: ITunesAPIResult[]
+): GroupedResults {
   return results.reduce(
     (acc: GroupedResults, current: ITunesAPIResult) => {
       const { results } = acc
@@ -44,9 +46,11 @@ export function groupResultsByArtist(results: ITunesAPIResult[]): GroupedResults
   )
 }
 
-function getBestMatchFromResult(artistCount: ArtistIdResultCount): string |null {
+function getBestMatchFromResult(
+  artistCount: ArtistIdResultCount
+): string | null {
   let max = 0
-  let result= null
+  let result = null
   for (const artistId in artistCount) {
     if (artistCount[artistId] > max) {
       max = artistCount[artistId]
@@ -56,7 +60,9 @@ function getBestMatchFromResult(artistCount: ArtistIdResultCount): string |null 
   return result
 }
 
-export async function getAlbumsForArtist(artist: string): Promise<ITunesAPIResult[]> {
+export async function getAlbumsForArtist(
+  artist: string
+): Promise<ITunesAPIResult[]> {
   const sanitizedArtistQuery = artist
     .split(' ')
     .map((token) => token.toLowerCase())
@@ -65,14 +71,16 @@ export async function getAlbumsForArtist(artist: string): Promise<ITunesAPIResul
   const cached = cache.get<ITunesAPIResult[]>(sanitizedArtistQuery)
 
   if (cached) {
-    return cached;
+    return cached
   }
 
   const data = await fetchAlbumsByArtist(sanitizedArtistQuery)
-  const {results, artistCount} = groupResultsByArtist(data.results)
+  const { results, artistCount } = groupResultsByArtist(data.results)
   const bestMatch = getBestMatchFromResult(artistCount)
 
-  if (!bestMatch) { return []}
+  if (!bestMatch) {
+    return []
+  }
 
   const result = Object.values(results[bestMatch])
 

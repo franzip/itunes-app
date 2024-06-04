@@ -29,7 +29,10 @@ export type ITunesAPIResponse = {
   results: ITunesAPIResult[]
 }
 
-async function fetchFromAPI(term: string, filters: object): Promise<ITunesAPIResponse> {
+async function fetchFromAPI(
+  term: string,
+  filters: object
+): Promise<ITunesAPIResponse> {
   const params = new URLSearchParams()
   params.append('term', term)
 
@@ -41,6 +44,8 @@ async function fetchFromAPI(term: string, filters: object): Promise<ITunesAPIRes
   return response.json()
 }
 
-export async function fetchAlbumsByArtist(artist: string):Promise<ITunesAPIResponse> {
+export async function fetchAlbumsByArtist(
+  artist: string
+): Promise<ITunesAPIResponse> {
   return fetchFromAPI(artist, { entity: 'album' })
 }
