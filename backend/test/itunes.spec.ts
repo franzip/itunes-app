@@ -16,7 +16,7 @@ describe('ITunes service', () => {
   test('groupResultsByArtist - groups results correctly', () => {
     const result = groupResultsByArtist(jsonMock.results as ITunesAPIResult[])
     expect(result.artistCount).toEqual({
-      '112018': 8,
+      '112018': 6,
       '6906197': 15,
       '216123617': 1,
       '218352633': 3,
@@ -35,12 +35,10 @@ describe('ITunes service', () => {
   })
 
   test('getAlbumsForArtist - returns an empty list if there is no match', async () => {
-    jest
-      .spyOn(ITunesClientAPI, 'fetchAlbumsByArtist')
-      .mockResolvedValueOnce({
-        resultCount: 0,
-        results: []
-      } as ITunesAPIResponse)
+    jest.spyOn(ITunesClientAPI, 'fetchAlbumsByArtist').mockResolvedValueOnce({
+      resultCount: 0,
+      results: []
+    } as ITunesAPIResponse)
     const result = await getAlbumsForArtist('foo+bar+bar')
     expect(result).toEqual([])
   })

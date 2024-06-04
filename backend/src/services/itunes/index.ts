@@ -27,13 +27,17 @@ export function groupResultsByArtist(
   return results.reduce(
     (acc: GroupedResults, current: ITunesAPIResult) => {
       const { results } = acc
+      const collectionName = current.collectionName.replace(
+        / *\([^)]*\) */g,
+        ''
+      )
       if (current.artistId in results) {
         // nothing to do - there is already an album with this name (avoid duplicates)
-        if (current.collectionName in results[current.artistId]) {
+        if (collectionName in results[current.artistId]) {
           return acc
         }
         acc['artistCount'][current.artistId] += 1
-        acc['results'][current.artistId][current.collectionName] = current
+        acc['results'][current.artistId][collectionName] = current
         return acc
       }
 
